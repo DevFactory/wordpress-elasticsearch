@@ -20,6 +20,7 @@
 import org.junit.Test;
 import org.nukedbit.Post;
 import org.nukedbit.PostRetriever;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,13 +48,10 @@ public class PostRetrieverAllTests {
     public void ShouldCallPrepareStatement() throws SQLException, ParseException {
         Connection connection = getConnection();
         final String getAllByDateQuery = getAllQueryString();
-
         PreparedStatement mockedStatement = getPreparedStatement(connection, getAllByDateQuery);
-
         PostRetriever retriever = new PostRetriever(connection);
         final Date startDate = getDate();
         retriever.all(startDate);
-
         verifyPrepareStatement(connection, getAllByDateQuery,
                 mockedStatement, new java.sql.Date(startDate.getTime()));
     }
@@ -62,34 +60,33 @@ public class PostRetrieverAllTests {
     public void ResultSet() throws SQLException, ParseException {
         Connection connection = getConnection();
         final Date startDate = getDate();
-        java.sql.Date expectedModifiedAt = new java.sql.Date(startDate.getTime());
-        String expectedContent = "content";
-        String expectedTitle = "title";
-        String expectedImageUrl = "image_url";
-        int expectedId = 1;
-
-
+        Post expectedPost = getPost(startDate);
         PreparedStatement mockedStatement = getPreparedStatement(connection, startDate);
-        ResultSet resultSetMock = getResultSetMock(expectedModifiedAt, expectedContent,
-                expectedTitle, expectedImageUrl, expectedId, mockedStatement);
-
-
+        ResultSet resultSetMock = getResultSetMock(expectedPost,mockedStatement);
         PostRetriever retriever = new PostRetriever(connection);
         Post post = retriever.all(startDate).get(0);
-
-        verifyResultSet(expectedModifiedAt, expectedContent, expectedTitle,
-                expectedImageUrl, expectedId, mockedStatement, resultSetMock, post);
+        verifyResultSet(expectedPost, mockedStatement, resultSetMock, post);
     }
 
-    private void verifyResultSet(java.sql.Date expectedModifiedAt, String expectedContent, String expectedTitle, String expectedImageUrl, int expectedId, PreparedStatement mockedStatement, ResultSet resultSetMock, Post post) throws SQLException {
+    private Post getPost(Date startDate) {
+        return new Post(
+                    1,
+                    startDate,
+                    "content",
+                    "title",
+                    "image_url"
+            );
+    }
+
+    private void verifyResultSet(Post expectedPost, PreparedStatement mockedStatement, ResultSet resultSetMock, Post post) throws SQLException {
         verify(mockedStatement, times(1)).execute();
         verify(resultSetMock, times(2)).next();
 
-        assertEquals(expectedId, post.getId());
-        assertEquals(expectedModifiedAt, post.getModifiedAt());
-        assertEquals(expectedContent, post.getContent());
-        assertEquals(expectedTitle, post.getTitle());
-        assertEquals(expectedImageUrl, post.getImageUrl());
+        assertEquals(expectedPost.getId(), post.getId());
+        assertEquals(expectedPost.getModifiedAt(), post.getModifiedAt());
+        assertEquals(expectedPost.getContent(), post.getContent());
+        assertEquals(expectedPost.getTitle(), post.getTitle());
+        assertEquals(expectedPost.getImageUrl(), post.getImageUrl());
     }
 
     private PreparedStatement getPreparedStatement(Connection connection, Date startDate) throws SQLException {
@@ -98,17 +95,17 @@ public class PostRetrieverAllTests {
         return mockedStatement;
     }
 
-    private ResultSet getResultSetMock(java.sql.Date expectedModifiedAt, String expectedContent, String expectedTitle, String expectedImageUrl, int expectedId, PreparedStatement mockedStatement) throws SQLException {
+    private ResultSet getResultSetMock(Post expectedPost, PreparedStatement mockedStatement) throws SQLException {
         ResultSet resultSetMock = mock(ResultSet.class);
         when(mockedStatement.getResultSet()).thenReturn(resultSetMock);
         when(mockedStatement.execute()).thenReturn(true);
         when(resultSetMock.next()).thenReturn(true).thenReturn(false);
 
-        when(resultSetMock.getInt("ID")).thenReturn(expectedId);
-        when(resultSetMock.getDate("ModifiedAt")).thenReturn(expectedModifiedAt);
-        when(resultSetMock.getString("Content")).thenReturn(expectedContent);
-        when(resultSetMock.getString("Title")).thenReturn(expectedTitle);
-        when(resultSetMock.getString("image_url")).thenReturn(expectedImageUrl);
+        when(resultSetMock.getInt("ID")).thenReturn(expectedPost.getId());
+        when(resultSetMock.getDate("ModifiedAt")).thenReturn(new java.sql.Date(expectedPost.getModifiedAt().getTime()));
+        when(resultSetMock.getString("Content")).thenReturn(expectedPost.getContent());
+        when(resultSetMock.getString("Title")).thenReturn(expectedPost.getTitle());
+        when(resultSetMock.getString("image_url")).thenReturn(expectedPost.getImageUrl());
         return resultSetMock;
     }
 
