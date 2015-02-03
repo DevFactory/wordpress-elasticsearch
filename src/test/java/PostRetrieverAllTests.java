@@ -58,14 +58,31 @@ public class PostRetrieverAllTests {
 
     @Test
     public void ResultSet() throws SQLException, ParseException {
-        Connection connection = getConnection();
         final Date startDate = getDate();
         Post expectedPost = getPost(startDate);
+        Connection connection = getConnection();
         PreparedStatement mockedStatement = getPreparedStatement(connection, startDate);
-        ResultSet resultSetMock = getResultSetMock(expectedPost,mockedStatement);
+        ResultSet resultSetMock = getResultSetMock(expectedPost, mockedStatement);
+
         PostRetriever retriever = new PostRetriever(connection);
         Post post = retriever.all(startDate).get(0);
-        verifyResultSet(expectedPost, mockedStatement, resultSetMock, post);
+
+        verifyExecuteAndResultSet(mockedStatement, resultSetMock);
+
+        assertPost(expectedPost, post);
+    }
+
+    private void verifyExecuteAndResultSet(PreparedStatement mockedStatement, ResultSet resultSetMock) throws SQLException {
+        verify(mockedStatement, times(1)).execute();
+        verify(resultSetMock, times(2)).next();
+    }
+
+    private void assertPost(Post expectedPost, Post post) {
+        assertEquals(expectedPost.getId(), post.getId());
+        assertEquals(expectedPost.getModifiedAt(), post.getModifiedAt());
+        assertEquals(expectedPost.getContent(), post.getContent());
+        assertEquals(expectedPost.getTitle(), post.getTitle());
+        assertEquals(expectedPost.getImageUrl(), post.getImageUrl());
     }
 
     private Post getPost(Date startDate) {
@@ -76,17 +93,6 @@ public class PostRetrieverAllTests {
                     "title",
                     "image_url"
             );
-    }
-
-    private void verifyResultSet(Post expectedPost, PreparedStatement mockedStatement, ResultSet resultSetMock, Post post) throws SQLException {
-        verify(mockedStatement, times(1)).execute();
-        verify(resultSetMock, times(2)).next();
-
-        assertEquals(expectedPost.getId(), post.getId());
-        assertEquals(expectedPost.getModifiedAt(), post.getModifiedAt());
-        assertEquals(expectedPost.getContent(), post.getContent());
-        assertEquals(expectedPost.getTitle(), post.getTitle());
-        assertEquals(expectedPost.getImageUrl(), post.getImageUrl());
     }
 
     private PreparedStatement getPreparedStatement(Connection connection, Date startDate) throws SQLException {
