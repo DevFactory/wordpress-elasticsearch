@@ -52,8 +52,16 @@ public class PostRetrieverAllTests {
         PostRetriever retriever = new PostRetriever(connection);
         final Date startDate = getDate();
         retriever.all(startDate);
-        verifyPrepareStatement(connection, getAllByDateQuery,
-                mockedStatement, new java.sql.Date(startDate.getTime()));
+        verifyPrepareStatment(connection, getAllByDateQuery);
+        verifySetDate(mockedStatement, startDate);
+    }
+
+    private void verifySetDate(PreparedStatement mockedStatement, Date startDate) throws SQLException {
+        verify(mockedStatement, times(1)).setDate(1, new java.sql.Date(startDate.getTime()));
+    }
+
+    private void verifyPrepareStatment(Connection connection, String getAllByDateQuery) throws SQLException {
+        verify(connection, times(1)).prepareStatement(getAllByDateQuery);
     }
 
     @Test
@@ -115,11 +123,6 @@ public class PostRetrieverAllTests {
         return resultSetMock;
     }
 
-
-    private void verifyPrepareStatement(Connection connection, String getAllByDateQuery, PreparedStatement mockedStatement, java.sql.Date startDate) throws SQLException {
-        verify(connection, times(1)).prepareStatement(getAllByDateQuery);
-        verify(mockedStatement, times(1)).setDate(1, startDate);
-    }
 
     private String getAllQueryString() {
         return "select p.ID, p.post_modified_gmt as ModifiedAt, p.post_content as Content, p.post_title as Title,pms.image_url from wp_posts p" +
