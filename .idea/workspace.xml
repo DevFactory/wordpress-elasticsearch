@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="43b4b33e-5184-4215-9366-c9cef7faebb6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/PostRetrieverAllTests.java" afterPath="$PROJECT_DIR$/src/test/java/PostRetrieverAllTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wordpress-elasticsearch.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,10 +69,11 @@
       <file leaf-file-name="PostRetrieverAllTests.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/PostRetrieverAllTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44801715" vertical-offset="0" max-vertical-offset="2774">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.32583067" vertical-offset="589" max-vertical-offset="2774">
+              <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
               <folding>
-                <element signature="e#0#6197#0" expanded="true" />
+                <element signature="e#0#6229#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -717,12 +717,12 @@
       <updated>1422994792570</updated>
       <workItem from="1422994794482" duration="9272000" />
       <workItem from="1423005166736" duration="40000" />
-      <workItem from="1423005208747" duration="3006000" />
+      <workItem from="1423005208747" duration="3127000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12318000" />
+    <option name="totallyTimeSpent" value="12439000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1753" height="1337" extended-state="0" />
@@ -827,7 +827,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="2556">
           <caret line="28" column="9" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
           <folding>
-            <element signature="e#0#6197#0" expanded="true" />
+            <element signature="e#0#6229#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -868,7 +869,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2556">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#6197#0" expanded="true" />
+            <element signature="e#0#6229#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -935,10 +937,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/PostRetrieverAllTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44801715" vertical-offset="0" max-vertical-offset="2774">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.32583067" vertical-offset="589" max-vertical-offset="2774">
+          <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
           <folding>
-            <element signature="e#0#6197#0" expanded="true" />
+            <element signature="e#0#6229#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

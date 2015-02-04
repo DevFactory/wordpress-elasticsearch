@@ -45,7 +45,7 @@ public class PostRetrieverAllTests {
     }
 
     @Test
-    public void ResultSet() throws SQLException, ParseException {
+    public void ShouldReturnPostVerifyExecuteAndResultSet() throws SQLException, ParseException {
         final Date startDate = getDate();
         Post expectedPost = getPost(startDate);
         Connection connection = getConnection();
