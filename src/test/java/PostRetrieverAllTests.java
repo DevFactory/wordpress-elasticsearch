@@ -18,6 +18,7 @@
  */
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.nukedbit.Post;
 import org.nukedbit.PostRetriever;
 import java.sql.Connection;
@@ -33,7 +34,7 @@ import static org.mockito.Mockito.*;
 public class PostRetrieverAllTests {
 
     @Test
-    public void ShouldCallPrepareStatement() throws SQLException, ParseException {
+    public void PrepareStatement() throws SQLException, ParseException {
         Connection connection = getConnection();
         final String getAllByDateQuery = getAllQueryString();
         PreparedStatement mockedStatement = getPreparedStatement(connection, getAllByDateQuery);
@@ -45,18 +46,15 @@ public class PostRetrieverAllTests {
     }
 
     @Test
-    public void ShouldReturnPostVerifyExecuteAndResultSet() throws SQLException, ParseException {
+    public void ReturnPost() throws SQLException, ParseException {
         final Date startDate = getDate();
         Post expectedPost = getPost(startDate);
         Connection connection = getConnection();
         PreparedStatement mockedStatement = getPreparedStatement(connection, startDate);
         ResultSet resultSetMock = getResultSetMock(expectedPost, mockedStatement);
-
         PostRetriever retriever = new PostRetriever(connection);
         Post post = retriever.all(startDate).get(0);
-
         verifyExecuteAndResultSet(mockedStatement, resultSetMock);
-
         assertPost(expectedPost, post);
     }
 
