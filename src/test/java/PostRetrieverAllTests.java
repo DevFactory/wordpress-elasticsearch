@@ -18,7 +18,6 @@
  */
 
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.nukedbit.Post;
 import org.nukedbit.PostRetriever;
 import java.sql.Connection;
