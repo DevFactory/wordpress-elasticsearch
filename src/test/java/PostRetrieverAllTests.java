@@ -20,7 +20,6 @@
 import org.junit.Test;
 import org.nukedbit.Post;
 import org.nukedbit.PostRetriever;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,21 +27,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class PostRetrieverAllTests {
-
-    @Test
-    public void ShouldReturnAllPosts() throws SQLException, ParseException {
-        Connection mockedConnection = getConnectionWithStatement();
-        PostRetriever retriever = new PostRetriever(mockedConnection);
-        final Date startDate = getDate();
-        List<Post> posts = retriever.all(startDate);
-        assertEquals(1, posts.size());
-    }
 
     @Test
     public void ShouldCallPrepareStatement() throws SQLException, ParseException {
@@ -54,14 +42,6 @@ public class PostRetrieverAllTests {
         retriever.all(startDate);
         verifyPrepareStatment(connection, getAllByDateQuery);
         verifySetDate(mockedStatement, startDate);
-    }
-
-    private void verifySetDate(PreparedStatement mockedStatement, Date startDate) throws SQLException {
-        verify(mockedStatement, times(1)).setDate(1, new java.sql.Date(startDate.getTime()));
-    }
-
-    private void verifyPrepareStatment(Connection connection, String getAllByDateQuery) throws SQLException {
-        verify(connection, times(1)).prepareStatement(getAllByDateQuery);
     }
 
     @Test
@@ -78,6 +58,14 @@ public class PostRetrieverAllTests {
         verifyExecuteAndResultSet(mockedStatement, resultSetMock);
 
         assertPost(expectedPost, post);
+    }
+
+    private void verifySetDate(PreparedStatement mockedStatement, Date startDate) throws SQLException {
+        verify(mockedStatement, times(1)).setDate(1, new java.sql.Date(startDate.getTime()));
+    }
+
+    private void verifyPrepareStatment(Connection connection, String getAllByDateQuery) throws SQLException {
+        verify(connection, times(1)).prepareStatement(getAllByDateQuery);
     }
 
     private void verifyExecuteAndResultSet(PreparedStatement mockedStatement, ResultSet resultSetMock) throws SQLException {
@@ -139,13 +127,6 @@ public class PostRetrieverAllTests {
         PreparedStatement mockedStatement = mock(PreparedStatement.class);
         when(connection.prepareStatement(getAllByDateQuery)).thenReturn(mockedStatement);
         return mockedStatement;
-    }
-
-
-    private Connection getConnectionWithStatement() throws SQLException {
-        Connection mockedConnection = getConnection();
-        PreparedStatement mockedStatement = getPreparedStatement(mockedConnection, "");
-        return mockedConnection;
     }
 
     private Connection getConnection() throws SQLException {
