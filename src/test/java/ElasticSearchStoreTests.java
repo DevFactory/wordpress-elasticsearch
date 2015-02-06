@@ -23,7 +23,6 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Client;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
 import org.nukedbit.ElasticSearchStore;
 import org.nukedbit.Post;
 

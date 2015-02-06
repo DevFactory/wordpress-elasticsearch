@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by sebastian on 03/02/15.
- */
 public class PostRetriever {
     private final Connection connection;
 
@@ -48,6 +45,8 @@ public class PostRetriever {
             "     where p.post_type='post' and p.post_modified >= ?";
 
 
+    private final String getTrashedPosts = "SELECT ID FROM wp_posts where post_status='trashed'";
+
     public List<Post> all(Date startDate) throws SQLException {
         PreparedStatement stmt = this.connection.prepareStatement(getAllByDateQuery);
         stmt.setDate(1,new java.sql.Date(startDate.getTime()));
@@ -64,5 +63,19 @@ public class PostRetriever {
             ));
         }
         return posts;
+    }
+
+    public List<Integer> allTrashed() throws SQLException {
+        PreparedStatement stmt = this.connection.prepareStatement(getTrashedPosts);
+        if(!stmt.execute())
+        {
+            return new ArrayList<Integer>();
+        }
+        final ResultSet postResultSet = stmt.getResultSet();
+        ArrayList<Integer> postIds = new ArrayList<Integer>();
+        while(postResultSet.next()) {
+            postIds.add(postResultSet.getInt("ID"));
+        }
+        return postIds;
     }
 }
